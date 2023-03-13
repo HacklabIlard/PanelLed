@@ -19,8 +19,11 @@ def sendImage(image_name):
 
     color_str = ''.join(map(chr, color_flat))
 
+    print(color_str)
 
     string_converted = color_str.encode()
+
+    print(string_converted)
 
     ser.write(string_converted)
 

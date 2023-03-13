@@ -3,40 +3,25 @@
 import numpy as np
 from PIL import Image
 import serial
+import time
+import sys
+
 ser = serial.Serial('/dev/ttyUSB0',9600)
 
-# Load the image
-img = Image.open('image.png')
+def sendImage(image_name):
+    img = Image.open(image_name)
 
-# Convert the image to a numpy array
-img_array = np.array(img)
+    img_array = np.array(img)
 
-# Reshape the array to a 3-dimensional array with shape (10, 10, 3)
-print("my_array")
-my_array = img_array.reshape((10, 10, 3))
+    my_array = img_array.reshape((10, 10, 3))
 
-print(my_array)
+    color_flat = my_array.flatten()
+
+    color_str = ''.join(map(chr, color_flat))
 
 
-# flatten the array
-print("color_fla")
-color_flat = my_array.flatten()
+    string_converted = color_str.encode()
 
-print(color_flat)
+    ser.write(string_converted)
 
-# convert the flattened array to a string
-print("color_str")
-color_str = ''.join(map(chr, color_flat))
-
-print(color_str)
-
-string_converted = color_str.encode()
-
-# send the string to Arduino
-print("string_converted")
-print(string_converted)
-
-#
-
-ser.write(string_converted)
-
+sendImage(sys.argv[1] + '.png')

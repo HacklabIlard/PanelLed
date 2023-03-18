@@ -95,39 +95,24 @@ void loop() {
   FastLED.clear();   
   FastLED.show();   
 
+  byte buffer[300];
 
-  command = Serial.readString();
-  command.trim();  
+  Serial.readBytes(buffer, 300);
 
-  if (command == "clear") {
-    Serial.println(F("Clear"));
-    for (int i=0; i < 100; i++) {
-      leds[i].setRGB(0, 0, 0);
+
+  int index = 0;
+  for (int row = 0; row < NUM_ROWS; row++) {
+    for (int col = 0; col < NUM_COLS; col++) {
+      int r = buffer[index++];
+      int v = buffer[index++];
+      int b = buffer[index++];
+
+      int l = xy2i(col, row);
+      leds[l] = CRGB( r, b, v);
+
     }
-    FastLED.show(); 
-  } else if (command == "letter") {
-    Serial.println(F("Letter"));
-     displayImage(toDrawA);
-      FastLED.show();     
-  } else {
-    byte colors[NUM_ROWS][NUM_COLS][3];
-
-    int index = 0;
-    for (int row = 0; row < NUM_ROWS; row++) {
-      for (int col = 0; col < NUM_COLS; col++) {
-        int r = command.charAt(index++);
-        int v = command.charAt(index++);
-        int b = command.charAt(index++);
- 
-        r = alpha2color(r);
-        v = alpha2color(v);
-        b = alpha2color(b);
-        
-        int l = xy2i(col, row);
-        leds[l] = CRGB( r, v, b);
-      }
-    }
-    FastLED.show();  
   }
+  FastLED.show();  
+
   
 }

@@ -21,14 +21,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> ser = serial.Serial('/dev/ttyUSB0',9600)
 ```
 
-- Envoyer le dessin de lettre A :  
+- Envoyer l'image :  
 
 ```
-$ ./sendletter.py 
-```
-
-- Effacer le panel led :  
-
-```
-$ ./clear.py 
+./convertSendImage2Arduino.py image_color.png
 ```
